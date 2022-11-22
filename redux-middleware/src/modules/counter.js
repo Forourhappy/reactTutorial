@@ -33,8 +33,8 @@ function* decreaseSaga() {
 export function* counterSaga() {
 	// takeEvery는 들어오는 모든 액션에 대해 특정 작업 처리
 
-	yield throttle(3000, INCREASE_ASYNC, increaseSaga);
-	// yield takeEvery(INCREASE_ASYNC, increaseSaga);
+	// yield throttle(3000, INCREASE_ASYNC, increaseSaga);
+	yield takeEvery(INCREASE_ASYNC, increaseSaga);
 	yield takeLatest(DECREASE_ASYNC, decreaseSaga);
 }
 
