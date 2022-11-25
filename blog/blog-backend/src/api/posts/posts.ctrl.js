@@ -1,3 +1,5 @@
+import Post from '../../model/post.js';
+
 // id의 초깃값
 let postId = 1;
 
@@ -12,16 +14,23 @@ const posts = [
 
 // 포스트 작성
 // POST /api/posts
-// { title, body }
+// {
+// 	title: '제목',
+// 	body: '내용',
+// 	tags: ['태그1', '태그2']
+// }
 
-export const write = ctx => {
+export const write = async ctx => {
 	// REST API의 Request Body는 ctx.request.body에서 조회 가능
-	const { title, body } = ctx.request.body;
-	// 기존 postId 값에 1을 더합니다
-	postId += 1;
-	const post = { id: postId, title, body };
-	posts.push(post);
-	ctx.body = post;
+	const { title, body, tags } = ctx.request.body;
+
+	const post = new Post({ title, body, tags });
+	try {
+		await post.save();
+		ctx.body = post;
+	} catch (e) {
+		ctx.throw(500, e);
+	}
 };
 
 // 포스트 목록 조회
@@ -76,27 +85,27 @@ export const remove = ctx => {
 // PUT /api/posts/:id
 // { title, body }
 
-export const replace = ctx => {
-	// PUT 메서드는 전체 포스트 정보를 입력하여 데이터를 통째로 교체할 때 사용
-	const { id } = ctx.params;
-	// 해당 id를 가진 post가 몇 번째인지 확인
-	const index = posts.findIndex(p => p.id.toString() === id);
-	//포스트가 없으면 오류를 반환
-	if (index === -1) {
-		ctx.status = 404;
-		ctx.body = {
-			message: '포스트가 존재하지 않습니다',
-		};
-		return;
-	}
-	// 전체 객체를 덮어 씌운다
-	// 따라서 id를 제외한 기존 정보를 날리고, 객체를 새로 만든다
-	posts[index] = {
-		id,
-		...ctx.request.body,
-	};
-	ctx.body = posts[index];
-};
+// export const replace = ctx => {
+// 	// PUT 메서드는 전체 포스트 정보를 입력하여 데이터를 통째로 교체할 때 사용
+// 	const { id } = ctx.params;
+// 	// 해당 id를 가진 post가 몇 번째인지 확인
+// 	const index = posts.findIndex(p => p.id.toString() === id);
+// 	//포스트가 없으면 오류를 반환
+// 	if (index === -1) {
+// 		ctx.status = 404;
+// 		ctx.body = {
+// 			message: '포스트가 존재하지 않습니다',
+// 		};
+// 		return;
+// 	}
+// 	// 전체 객체를 덮어 씌운다
+// 	// 따라서 id를 제외한 기존 정보를 날리고, 객체를 새로 만든다
+// 	posts[index] = {
+// 		id,
+// 		...ctx.request.body,
+// 	};
+// 	ctx.body = posts[index];
+// };
 
 // 포스트 수정(특정 필드 변경)
 // PATCH /api/posts/:id
