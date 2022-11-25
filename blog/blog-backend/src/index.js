@@ -2,11 +2,20 @@ import { config } from 'dotenv';
 import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
-import { _MongoClient } from 'mongodb';
+import mongoose from 'mongoose';
 
-import api from './api';
+import api from './api/index.js';
+
+config();
 
 const { PORT, url } = process.env;
+
+mongoose
+	.connect(url)
+	.then(() => {
+		console.log('Connected to MongoDB');
+	})
+	.catch(err => console.error(err));
 
 const app = new Koa();
 const router = new Router();
@@ -20,15 +29,7 @@ app.use(bodyParser());
 // app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods());
 
-_MongoClient
-	.connect(url)
-	.then(client => {
-		console.log('mongo connected');
-		console.log(client);
-	})
-	.then(
-		app.listen(PORT, () => {
-			console.log('4000 port on');
-		})
-	)
-	.catch(err => console.log(err));
+const port = PORT || 4000;
+app.listen(port, () => {
+	console.log('Listening to port %d', port);
+});
