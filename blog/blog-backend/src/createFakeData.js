@@ -8,6 +8,7 @@ export default function createFakeData() {
 		body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero at et earum alias? Quasi fugit quo magni qui, vero eum id eveniet necessitatibus laborum vitae accusamus quas cumque recusandae quam.',
 		tags: ['가짜', '데이터'],
 	}));
+
 	Post.insertMany(posts, (err, docs) => {
 		console.log(docs);
 	});
