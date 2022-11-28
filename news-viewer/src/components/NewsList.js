@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import NewsItem from 'components/NewsItem';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { usePromise } from 'lib/usePromise';
 
+useE;
 const NewsListBlock = styled.div`
 	box-sizing: border-box;
 	padding-bottom: 3rem;
