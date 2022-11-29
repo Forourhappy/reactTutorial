@@ -1,11 +1,30 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer, createSlice } from '@reduxjs/toolkit';
 
-const SAMPLE_ACTION = 'auth/SAMPLE_ACTION';
+const initialState = {
+	register: {
+		username: '',
+		password: '',
+		passwordConfirm: ''
+	},
+	login: {
+		username: '',
+		password: ''
+	}
+};
 
-const initialState = {};
-
-const auth = createReducer(initialState, builder => {
-	builder.addCase(SAMPLE_ACTION, (state, action) => state);
-});
+const auth = createSlice({
+	name: 'auth',
+	initialState: initialState,
+	reducers: {
+		CHANGE_FIELD: (state, { payload: { form, key, value } }) => {
+			state[form][key] = value
+		},
+		INITIALIZE_FORM: (state, { payload: form }) => {
+			state[form] = initialState[form]
+		}
+	}
+})
+export const changeField = auth.actions.CHANGE_FIELD
+export const initializeForm = auth.actions.INITIALIZE_FORM
 
 export default auth;
