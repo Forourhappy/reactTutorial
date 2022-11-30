@@ -12,7 +12,7 @@ const initialState = {
 	},
 };
 
-const auth = createSlice({
+const authSlice = createSlice({
 	name: 'auth',
 	initialState: initialState,
 	reducers: {
@@ -25,8 +25,6 @@ const auth = createSlice({
 	},
 });
 
-const { actions, reducer } = auth;
+export const { changeField, initializeForm } = authSlice.actions;
 
-export const { changeField, initializeForm } = actions;
-
-export default reducer;
+export default authSlice.reducer;
