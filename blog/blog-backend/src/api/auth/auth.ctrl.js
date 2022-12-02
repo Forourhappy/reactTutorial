@@ -1,11 +1,11 @@
 import Joi from 'joi';
-import User from '../../model/user';
+import User from '../../model/user.js';
 
 export const register = async ctx => {
 	// Request Body 검증
 	const schema = Joi.object().keys({
-		username: Joi.String().alphanum().min(3).max(20).required(),
-		password: Joi.String().required(),
+		username: Joi.string().alphanum().min(3).max(20).required(),
+		password: Joi.string().required(),
 	});
 	const result = schema.validate(ctx.request.body);
 	if (result.error) {
