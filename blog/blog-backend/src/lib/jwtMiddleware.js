@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
-import User from '../model/user';
+import User from '../model/user.js';
 
 const jwtMiddleware = async (ctx, next) => {
-	const token = ctx.cookise.get('access_token');
+	const token = ctx.cookies.get('access_token');
 	if (!token) return next();
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
