@@ -7,16 +7,29 @@ import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer, { rootSaga } from './modules';
 import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga'
+import createSagaMiddleware from 'redux-saga';
+import { check, tempSetUser } from './modules/user';
 
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
 	reducer: rootReducer,
 	middleware: [sagaMiddleware],
 	devTools: process.env.NODE_ENV !== 'production',
 });
 
-sagaMiddleware.run(rootSaga)
+function loadUser() {
+	try {
+		const user = localStorage.getItem('user');
+		if (!user) return;
+		store.dispatch(tempSetUser(JSON.parse(user)));
+		store.dispatch(check());
+	} catch (e) {
+		console.log('localStorage is not working');
+	}
+}
+
+sagaMiddleware.run(rootSaga);
+loadUser();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

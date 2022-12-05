@@ -30,6 +30,7 @@ const authSlice = createSlice({
 		register: (state, { payload: { username, password } }) => {
 			state.username = username;
 			state.password = password;
+			console.log('유저이름, 비밀번호', state.username, state.password);
 		},
 		registerSuccess: (state, action) => {
 			state.authError = null;
@@ -41,6 +42,7 @@ const authSlice = createSlice({
 		login: (state, { payload: { username, password } }) => {
 			state.username = username;
 			state.password = password;
+			console.log('유저이름, 비밀번호', state.username, state.password);
 		},
 		loginSuccess: (state, action) => {
 			state.authError = null;

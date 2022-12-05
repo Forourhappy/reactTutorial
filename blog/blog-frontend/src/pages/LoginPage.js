@@ -8,7 +8,7 @@ const LoginPage = () => {
 		<AuthTemplate>
 			<LoginForm />
 		</AuthTemplate>
-	)
+	);
 };
 
 export default LoginPage;
