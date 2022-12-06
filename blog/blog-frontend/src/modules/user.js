@@ -13,20 +13,19 @@ const userSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		// 새로고침 이후 임시 로그인 처리
-		tempSetUser: (state, { payload }) => {
-			console.log('payload', payload);
-			state.user = payload;
+		tempSetUser: (state, action) => {
+			state.user = action.payload;
 		},
-		check: (state, action) => {},
-		checkSuccess: (state, { payload }) => {
-			state.user = payload;
+		check: () => {},
+		checkSuccess: (state, action) => {
+			state.user = action.payload;
 			state.checkError = null;
 		},
-		checkFailure: (state, { payload }) => {
+		checkFailure: (state, action) => {
 			state.user = null;
-			state.checkError = payload;
+			state.checkError = action.payload;
 		},
-		logout: (state, action) => {
+		logout: state => {
 			state.user = null;
 		},
 	},
