@@ -2,7 +2,13 @@ import styled from 'styled-components';
 import qs from 'qs';
 import Button from '../common/Button';
 
-const PaginationWrapper = styled.div``;
+const PaginationWrapper = styled.div`
+	width: 320px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 3rem;
+`;
 
 const PageNumber = styled.div``;
 
