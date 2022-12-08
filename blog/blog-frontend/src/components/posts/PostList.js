@@ -41,7 +41,6 @@ const PostItemWrapper = styled.div`
 `;
 
 const PostItem = ({ post }) => {
-	console.log('post', post);
 	const { publishedDate, user, tags, title, body, _id } = post;
 	return (
 		<PostItemWrapper>

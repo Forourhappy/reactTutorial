@@ -13,8 +13,9 @@ const postsSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		listPosts: () => {},
-		listPostsSuccess: (state, action) => {
-			state.posts = action.payload;
+		listPostsSuccess: (state, { payload: posts, meta: response }) => {
+			state.posts = posts;
+			state.lastPage = parseInt(response.headers['last-page'], 10);
 		},
 		listPostsFailure: (state, action) => {
 			state.error = action.payload;
