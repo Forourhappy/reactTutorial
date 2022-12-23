@@ -3,6 +3,9 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import mongoose from 'mongoose';
+import serve from 'koa-static';
+import path from 'path';
+import send from 'koa-send';
 
 import api from './api/index.js';
 import jwtMiddleware from './lib/jwtMiddleware.js';
@@ -10,6 +13,7 @@ import jwtMiddleware from './lib/jwtMiddleware.js';
 config();
 
 const { PORT, url } = process.env;
+const __dirname = path.resolve();
 
 mongoose
 	.connect(url)

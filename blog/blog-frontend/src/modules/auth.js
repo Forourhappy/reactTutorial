@@ -1,7 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { takeLatest } from 'redux-saga/effects';
 import * as authAPI from '../lib/api/auth';
 import createRequestSaga from '../lib/createRequestSaga';
+import { startLoading } from './loading';
 
 const initialState = {
 	register: {
@@ -30,7 +31,6 @@ const authSlice = createSlice({
 		register: (state, { payload: { username, password } }) => {
 			state.username = username;
 			state.password = password;
-			console.log('유저이름, 비밀번호', state.username, state.password);
 		},
 		registerSuccess: (state, action) => {
 			state.authError = null;
@@ -42,7 +42,6 @@ const authSlice = createSlice({
 		login: (state, { payload: { username, password } }) => {
 			state.username = username;
 			state.password = password;
-			console.log('유저이름, 비밀번호', state.username, state.password);
 		},
 		loginSuccess: (state, action) => {
 			state.authError = null;
@@ -52,6 +51,23 @@ const authSlice = createSlice({
 			state.authError = action.payload;
 		},
 	},
+	extraReducers: builder => {
+		builder.addCase(loginThunk.pending, (state, action) => {
+			startLoading('auth/loginThunk');
+		});
+		builder.addCase(loginThunk.fulfilled, (state, action) => {
+			state.auth = action.payload;
+			state.authError = null;
+		});
+		builder.addCase(loginThunk.rejected, (state, action) => {
+			state.authError = 'fail';
+		});
+	},
+});
+
+const loginThunk = createAsyncThunk('auth/loginThunk', async () => {
+	const response = authAPI.login;
+	return response.data;
 });
 
 // 사가 생성

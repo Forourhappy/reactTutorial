@@ -10,9 +10,6 @@ const LoginForm = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { form, auth, authError, user } = useSelector(({ auth, user }) => {
-		console.log('auth', auth);
-
-		console.log('user', user);
 		return {
 			form: auth.login,
 			auth: auth.auth,
@@ -48,7 +45,6 @@ const LoginForm = () => {
 	useEffect(() => {
 		if (authError) {
 			console.log('오류 발생');
-			console.log(authError);
 			setError('로그인 실패');
 			return;
 		}
